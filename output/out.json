@@ -1,0 +1,32 @@
+{
+   "mode":1,
+   "captor":{
+      "temperature":{
+         "value":10,
+         "treshold":{
+            "night":{
+               "high":20,
+               "low":5
+            },
+            "day":{
+               "high":45,
+               "low":25
+            }
+         }
+      },
+      "luminosity":{
+         "value":42,
+         "treshold":{
+            "day":{
+               "high":34
+            }
+         }
+      }
+   },
+   "actuator":{
+      "heater":1,
+      "clim":1
+      }
+   }
+}
+
