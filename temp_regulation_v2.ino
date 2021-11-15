@@ -1,5 +1,16 @@
 #include "OneWire.h"
 #include "DallasTemperature.h"
+#include <WiFi.h>
+
+
+// GLOBLA VARIABLES FOR THE SYSTEM 
+
+// the following variables are unsigned longs because the time, measured in
+// milliseconds, will quickly become a bigger number than can be stored in an int.
+unsigned long lastTime = 0;
+// Set timer
+unsigned long loop_period = 10L * 1000; /* =>  10000ms : 10 s */
+
 // :: BRANCHING OF THE PIN ::
 // -- output
 int pinHeater         = 21;
@@ -9,6 +20,7 @@ int pinVentilo        = 18;
 // -- input 
 int pinPhoto         = A5;
 int pinTemperature   = 23;
+
 
 // intit of the temperature object 
 OneWire oneWire(pinTemperature); 
@@ -59,14 +71,30 @@ struct measurement {
 
 #include "configuration.h"
 #include "modes.h"
+#include "wifi-config.h" 
+#include "http-command.h"
+
+
+
+// Cration of the Web server 
+   WiFiServer server(80);
+
 
 void setup() {
    Serial.begin(9600);// init bode 
  //  Serial.println(" :: DEVICE INITIALISATION ::");
    
    delay(2*1000);// Delay on startup 
-   
 
+
+   // CONFIG WIFI   
+   while(!Serial);// Wait Til serial conection
+   connect_wifi();// connect on a network hard registered in the wifi-config.h file. 
+
+   print_network_status();// print the selected conection if found 
+   server.begin();
+  
+   // SENSOR CONFIG 
    // Starting the temperature module 
    tempSensor.begin();
 
@@ -83,7 +111,7 @@ void setup() {
 
 void loop() {
    
-
+   
    measurement curMes; 
 
    // VARIABLES 
@@ -92,6 +120,22 @@ void loop() {
       command = Serial.readStringUntil('\n');
       doComand(command,&curMes);
    }
+   
+  String url = String(host)+path+params;
+
+  //Send an HTTP request every loop_period in ms
+  if ((millis() - lastTime) > loop_period) {
+    //Check WiFi connection status
+    if(WiFi.status()== WL_CONNECTED){
+
+      String ret = httpGETRequest(url.c_str());
+      Serial.println(ret);
+    }
+    else {
+      Serial.println("WiFi Disconnected");
+    }
+    lastTime = millis();
+  }
   
   curMes.mode_=MODE; 
   // save photo value
@@ -100,7 +144,9 @@ void loop() {
   tempSensor.requestTemperaturesByIndex(0);
   delay(500); 
   curMes.tem_value =tempSensor.getTempCByIndex(0);
+
    // Save threhold 
+  // Value of the threshold can have been changed, we must reloqd them
   curMes.photo_tresh=SJN;
   curMes.tem_tresh_low_day=SBJ;
   curMes.tem_tresh_high_day=SHJ;
