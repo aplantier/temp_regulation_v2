@@ -48,4 +48,46 @@ String httpGETRequest(const char* UrlServer) {
 
   return payload;
 }
+/*--------------------------------*/
+void httpReply(WiFiClient client) {
+  // this method makes a simple HTTP GET reply
+  // the body syntax is HTML
+  // => supposed to be displayed by a navigator
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: text/html");
+  client.println("Connection: close");  // the connection will be closed after
+                                        //completion of the response
+  client.println("Refresh: 5");         // refresh the page automatically every 5 sec
+
+  client.println(); // Empty line between header and body
+
+  client.println("<!DOCTYPE HTML>");
+  client.println("<html>");
+  client.print("Hello, je tourne depuis : "); // Returns the ms passed since the ESP
+                                              // began running the current program.
+  client.print(millis()/1000); // On pourrait sans doute donner une info
+  client.println("s <br />");  // plus pertinente ? temperature ?
+  client.println("</html>");
+}
+
+void postHTMLpage(WiFiClient client) {
+
+   Serial.println("SPIFFS FUNCTION");
+   client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: text/html");
+  client.println("Connection: close");  // the connection will be closed after
+                                        //completion of the response
+  client.println("Refresh: 5");         // refresh the page automatically every 5 sec
+
+  client.println(); // Empty line between header and body
+
+
+   File page  = SPIFFS.open("/statut.html","r");
+   while(page.available()){
+//      Serial.println(page.read());
+      client.println(page.read());
+
+   }
+   page.close();
+}
 #endif 

@@ -1,8 +1,8 @@
 #include "OneWire.h"
 #include "DallasTemperature.h"
 #include <WiFi.h>
-
-
+#include "SPIFFS.h"
+#include "ESPAsyncWebServer.h"
 // GLOBLA VARIABLES FOR THE SYSTEM 
 
 // the following variables are unsigned longs because the time, measured in
@@ -77,7 +77,8 @@ struct measurement {
 
 
 // Cration of the Web server 
-   WiFiServer server(80);
+  // WiFiServer server(80);
+  AsyncWebServer server(80);
 
 
 void setup() {
@@ -85,7 +86,11 @@ void setup() {
  //  Serial.println(" :: DEVICE INITIALISATION ::");
    
    delay(2*1000);// Delay on startup 
-
+   
+   if( !SPIFFS.begin(true)){
+      Serial.println("Opening SPIFFS partition has failed \n");
+      return;
+   }
 
    // CONFIG WIFI   
    while(!Serial);// Wait Til serial conection
@@ -111,9 +116,46 @@ void setup() {
 
 void loop() {
    
-   
-   measurement curMes; 
+    WiFiClient client = server.available();
+  
+  if (client) { // incoming client
+    Serial.println("New client is connecting !");
+    // an http request ends with a blank line CRLF
+    
+    boolean currentLineIsBlank = true;
+    
+    while (client.connected()) {
+      if (client.available()) {
+	
+        char c = client.read(); // Echo on the console
+        Serial.write(c);
+	
+        // if you've gotten to a CRLF the http GET request has ended,
+        // so you can send a reply
+        if (c == '\n' && currentLineIsBlank) { 
+          //httpReply(client);
+          postHTMLpage(client);
+          break;
+        }
+        if (c == '\r') { // you're starting a new line
+          currentLineIsBlank = true;
+        } else if (c != '\r') { // you've gotten a character on the current line
+          currentLineIsBlank = false;
+        }
+      }
+    }
+    
+    // give the web browser time to receive the data
+    delay(loop_period); // ms
+    
+    // close the connection :
+    client.stop();
+    Serial.println("client disconnected");
+  }
 
+
+
+   measurement curMes; 
    // VARIABLES 
    String command =""; 
    while(Serial.available()> 0){
@@ -124,6 +166,7 @@ void loop() {
   String url = String(host)+path+params;
 
   //Send an HTTP request every loop_period in ms
+ /*
   if ((millis() - lastTime) > loop_period) {
     //Check WiFi connection status
     if(WiFi.status()== WL_CONNECTED){
@@ -136,7 +179,8 @@ void loop() {
     }
     lastTime = millis();
   }
-  
+  */
+
   curMes.mode_=MODE; 
   // save photo value
   curMes.photo_value = analogRead(pinPhoto);
