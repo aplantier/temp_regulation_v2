@@ -38,7 +38,7 @@ void print_network_status(){ // Utilisation de String !
   Serial.print(s);
 }
 /*------------------------*/
-void connect_wifi(){
+void connect_wifi(struct measurement *mes){
  //  Set WiFi to station mode 
  WiFi.mode(WIFI_STA);
  // and disconnect from an AP if
@@ -49,6 +49,7 @@ void connect_wifi(){
  Serial.println(String("\nAttempting to connect to SSIDs : "));
  wifiMulti.addAP("Livebox-BE50","Antibes06");
  wifiMulti.addAP("ddnWIF","petitlapin");
+ wifiMulti.addAP("HUAWEI-6EC2","FGY9MLBL");
  while(wifiMulti.run() != WL_CONNECTED) {
    delay(1000);
    Serial.print(".");
@@ -56,7 +57,11 @@ void connect_wifi(){
 
  if(wifiMulti.run() == WL_CONNECTED) {
    Serial.print("\nWiFi connected : \n");
-  }
+   mes->ip  =     WiFi.localIP().toString() ;
+   mes->ssid=     String(WiFi.SSID()) ;
+   mes->mac =     String(WiFi.macAddress())   ;
+
+ }
 }
 /*---- Arduino IDE paradigm : setup+loop -----*/
 

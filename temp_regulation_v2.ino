@@ -47,6 +47,16 @@ bool regulation=true;
 
 
 struct measurement {
+   // Modules info 
+   String ssid; 
+   String mac; 
+   String ip;
+   
+   String report_ip;// This is the  addr to send periodically the sensor values 
+   int report_port;
+   int report_delay;
+   bool report_on;
+   char report_server[100];
 
    int mode_;//0: force, 1:regulation 
    // Photo
@@ -65,9 +75,13 @@ struct measurement {
    float tem_tresh_low_night;
    float tem_tresh_low_day;
    short heat_;
+
+
+
 }; 
 
 
+measurement curMes; 
 
 #include "configuration.h"
 #include "modes.h"
@@ -80,7 +94,8 @@ struct measurement {
   // WiFiServer server(80);
   AsyncWebServer server(80);
 
-
+  WiFiClient client; 
+ 
 void setup() {
    Serial.begin(9600);// init bode 
  //  Serial.println(" :: DEVICE INITIALISATION ::");
@@ -94,7 +109,7 @@ void setup() {
 
    // CONFIG WIFI   
    while(!Serial);// Wait Til serial conection
-   connect_wifi();// connect on a network hard registered in the wifi-config.h file. 
+   connect_wifi(&curMes);// connect on a network hard registered in the wifi-config.h file. 
 
    print_network_status();// print the selected conection if found 
    server.begin();
@@ -112,75 +127,22 @@ void setup() {
    ledcAttachPin(pinVentilo,gpioVentilo); // attach the gpio canal to the output pin 
    ledcSetup(gpioVentilo,25000,8);
 
-};
+   configRoute( & server) ; 
+   curMes.report_port=0;
+   curMes.report_ip="0.0.0.0";
+   curMes.report_delay=0;
+   curMes.report_on=false;
+   // CONFIGURATION OF THE ROUTES 
+}
 
 void loop() {
-   
-    WiFiClient client = server.available();
-  
-  if (client) { // incoming client
-    Serial.println("New client is connecting !");
-    // an http request ends with a blank line CRLF
-    
-    boolean currentLineIsBlank = true;
-    
-    while (client.connected()) {
-      if (client.available()) {
-	
-        char c = client.read(); // Echo on the console
-        Serial.write(c);
-	
-        // if you've gotten to a CRLF the http GET request has ended,
-        // so you can send a reply
-        if (c == '\n' && currentLineIsBlank) { 
-          //httpReply(client);
-          postHTMLpage(client);
-          break;
-        }
-        if (c == '\r') { // you're starting a new line
-          currentLineIsBlank = true;
-        } else if (c != '\r') { // you've gotten a character on the current line
-          currentLineIsBlank = false;
-        }
-      }
-    }
-    
-    // give the web browser time to receive the data
-    delay(loop_period); // ms
-    
-    // close the connection :
-    client.stop();
-    Serial.println("client disconnected");
-  }
-
-
-
-   measurement curMes; 
    // VARIABLES 
    String command =""; 
    while(Serial.available()> 0){
       command = Serial.readStringUntil('\n');
       doComand(command,&curMes);
    }
-   
   String url = String(host)+path+params;
-
-  //Send an HTTP request every loop_period in ms
- /*
-  if ((millis() - lastTime) > loop_period) {
-    //Check WiFi connection status
-    if(WiFi.status()== WL_CONNECTED){
-
-      String ret = httpGETRequest(url.c_str());
-      Serial.println(ret);
-    }
-    else {
-      Serial.println("WiFi Disconnected");
-    }
-    lastTime = millis();
-  }
-  */
-
   curMes.mode_=MODE; 
   // save photo value
   curMes.photo_value = analogRead(pinPhoto);
@@ -208,6 +170,20 @@ void loop() {
   applyConfiguration(curMes);
   String json_result=buildMeasure_JSON(curMes);
   Serial.println(json_result);
+  if(curMes.report_on){
+     WiFiClient client; 
+     HTTPClient http;
+
+     char server[100]; 
+     http.begin(client,curMes.report_server);
+     http.addHeader("Content-Type", "application/json");
+//     int httpResponseCode = http.POST("{\"api_key\":\"tPmAT5Ab3j7F9\",\"sensor\":\"BME280\",\"value1\":\"24.25\",\"value2\":\"49.54\",\"value3\":\"1005.14\"}");
+//     int httpResponseCode = http.POST(json_result);
+      Serial.print("HTTP Response code: ");
+      Serial.println(httpResponseCode);
+     http.end();    
+
+  }
   //Serial.print("Analog read : ");
   //Serial.println(photoValue, DEC);
  
