@@ -1,0 +1,76 @@
+document.getElementById(\"light\").innerHTML = this.responseText; if
+(this.readyState == 4 && this.status == 200) { }
+[Light]{.sensors-labels} [Temperature]{.sensors-labels}
+[%LIGHT%]{#light} [%TEMPERATURE%]{#temperature} ^°C^ \"\" ^Lumen^
+background-color: \#2196F3; background-color: rgba(255, 255, 255, 0.8);
+border: 1px solid rgba(0, 0, 0, 0.8); display: grid; display:
+inline-block; font-family: Arial; font-size: 1.5rem; font-size: 30px;
+grid-template-columns: auto auto; margin: 0px auto; max-width : 500px;
+padding-bottom: 15px; padding: 10px; padding: 20px; text-align: center;
+text-align: left; var xhr = new XMLHttpRequest(); vertical-align:middle;
+word-wrap: break-word; xhr.onreadystatechange = function() {
+xhr.open(\"GET\", \"/light\", true); xhr.send(); }; .grid-container {
+.grid-item { .sensors-labels{ .units { font-size: 1.2rem; }
+
+::: {.grid-item}
+::: {.grid-item}
+::: {.grid-item}
+::: {.grid-item}
+\
+\
+\
+IP Address : Port : Sampling Period (in seconds) : div { h2 { font-size:
+3.0rem; } html { p { font-size: 3.0rem; } setInterval(function ( ) {
+setInterval(function ( ) { } } } } } }, 1000 ) ; \--\> - High Temp :
+%SHJ% C\
+- Low Temp : %SBJ% C\
+: %COOLER%\
+: %HEATER%\
+: %IP%\
+: %LIGHT% Lumen\
+: %LT% Lumen\
+: %MAC%\
+: %SSID%\
+: %TEMPERATURE% C\
+: %UPTIME% s\
+: %WHERE% s\
+:::
+
+::: {.grid-container}
+ESP32
+=====
+
+### Periodic sensor data sent to :
+
+### Network
+
+### Object status :
+
+### Sensors
+
+### Sensors status WITH GLYPHS :
+
+### Thresholds :
+
+\<style\> \<title\>ESP32\</title\> Cooler Day Day Day/Night Light Heater
+IP address Light link status :\</h3\> MAC address Night - Low Temp :
+%SBN% C\<br/\> Night - Low Temp : %SHN% C\<br/\> status :\</h3\>
+Temperature Uptime Where WiFi SSID // .innerHTML method is used to
+change the html contents of a DOM object // DONE = 4; when request
+complete and return OK (200) // XMLHttpRequest changes between states as
+it progresses //Contrary to its name, does not open the connection. It
+//only configures the request, but the network activity only //starts
+with the call of send. \<!\-- \<!DOCTYPE HTML\>\<html\> \</body\>
+\</head\> \</html\> \<body\> \<head\>
+document.getElementById(\"temperature\").innerHTML = r; // temperature
+if (this.readyState == 4 && this.status == 200) { var r = this.response
+//renvoie le texte reÃ§u d\'un serveur suite Ã l\'envoi//console.log(r);
+var xhr = new XMLHttpRequest(); // Constructor xhr.onreadystatechange =
+function() { // Handler to track XMLHttp object state xhr.open(\"GET\",
+\"/temperature\", true); // true =\> asynchrone open call, xhr.send();
+//This method opens the connection and sends the request to server. } },
+1000 ) ; };
+:::
+:::
+:::
+:::

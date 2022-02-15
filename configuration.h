@@ -1,3 +1,8 @@
+
+/*
+ * This was the first try to build a json, that might be imrpoved using the buildJson API 
+ *
+ */
 String buildMeasure_JSON(measurement mes){
    String out_json="{";
   
@@ -60,6 +65,13 @@ String buildMeasure_JSON(measurement mes){
 out_json+="}";
 return out_json;
 }
+/**
+ * This function apply the configuration saved id the struct.
+ * The main usage is to set the actuator status 
+ * + Led ( heater & cooler ) 
+ * + The fan speed 
+ *
+ */
 void applyConfiguration(measurement mes){
    // heater
    if(mes.heat_>0){

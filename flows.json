@@ -1,0 +1,692 @@
+[
+    {
+        "id": "42082fe4634df1d7",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "35d8c77694a05d74",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "d0fc0ade177659ea",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dfc0de9917a811f0",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "11450f024c6c372b",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "8507ffdf5f6bfed2",
+        "type": "ui_group",
+        "name": "Luminosity",
+        "tab": "dfc0de9917a811f0",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d0fc0ade177659ea",
+        "type": "ui_tab",
+        "name": "Config",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "f82612d10bccfd8f",
+        "type": "ui_tab",
+        "name": "Data",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "c7c2efce3305425a",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "f82612d10bccfd8f",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "402f926b178b04e5",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "dfc0de9917a811f0",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3cc98e587334626c",
+        "type": "ui_group",
+        "name": "Luminosity",
+        "tab": "f82612d10bccfd8f",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "45448f182538696f",
+        "type": "http in",
+        "z": "42082fe4634df1d7",
+        "name": "getStatus",
+        "url": "/result",
+        "method": "post",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 80,
+        "y": 360,
+        "wires": [
+            [
+                "7226e6f4c1b8f7d4",
+                "63da01da6b55a4a8"
+            ]
+        ]
+    },
+    {
+        "id": "7226e6f4c1b8f7d4",
+        "type": "http response",
+        "z": "42082fe4634df1d7",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 330,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "63da01da6b55a4a8",
+        "type": "json",
+        "z": "42082fe4634df1d7",
+        "name": "json",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 290,
+        "y": 360,
+        "wires": [
+            [
+                "854b8905295d20ce",
+                "4841ba2b8f4952ed",
+                "a88ad02da6e167ca",
+                "7a4ef06d7d75cf45",
+                "e77ec730c5f1a871"
+            ]
+        ]
+    },
+    {
+        "id": "854b8905295d20ce",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "extract_captor_temperature",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.captor.temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 220,
+        "wires": [
+            [
+                "b92cb557d9672512",
+                "beda56712c6e5f8b",
+                "e248cc6ad8ff184f",
+                "9c5db9628cbac9cb",
+                "6f44afabb12e7536"
+            ]
+        ]
+    },
+    {
+        "id": "a88ad02da6e167ca",
+        "type": "debug",
+        "z": "42082fe4634df1d7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "4841ba2b8f4952ed",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "extract_luminosity",
+        "func": "msg.topic = \"luminosity\";\n\nmsg.payload = msg.payload.captor.luminosity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 680,
+        "wires": [
+            [
+                "988dba038e3eedbe",
+                "b70b81198e2d4b7e"
+            ]
+        ]
+    },
+    {
+        "id": "7a4ef06d7d75cf45",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "extract_fan_speed",
+        "func": "msg.topic = \"fan-speed\";\n\nmsg.payload = msg.payload.actuator.clim;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 780,
+        "wires": [
+            [
+                "d00d7a19f4c14907"
+            ]
+        ]
+    },
+    {
+        "id": "e77ec730c5f1a871",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "extract_heat",
+        "func": "msg.topic = \"fan-speed\";\n\nmsg.payload = msg.payload.actuator.heater;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 880,
+        "wires": [
+            [
+                "f16f027c04c95b54"
+            ]
+        ]
+    },
+    {
+        "id": "d00d7a19f4c14907",
+        "type": "ui_gauge",
+        "z": "42082fe4634df1d7",
+        "name": "",
+        "group": "35d8c77694a05d74",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "FanSpeed",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 770,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "f16f027c04c95b54",
+        "type": "ui_gauge",
+        "z": "42082fe4634df1d7",
+        "name": "",
+        "group": "35d8c77694a05d74",
+        "order": 3,
+        "width": "1",
+        "height": "1",
+        "gtype": "wave",
+        "title": "HJeater",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 760,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "5b5eed913c2853b0",
+        "type": "ui_chart",
+        "z": "42082fe4634df1d7",
+        "name": "displayTemperature",
+        "group": "402f926b178b04e5",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#3465a4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1110,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3cec799f14774082",
+        "type": "ui_text",
+        "z": "42082fe4634df1d7",
+        "group": "c7c2efce3305425a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Seuil Jour Haut",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1110,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "b92cb557d9672512",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getTemperature",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.value;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 220,
+        "wires": [
+            [
+                "5b5eed913c2853b0"
+            ]
+        ]
+    },
+    {
+        "id": "beda56712c6e5f8b",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getSHJ",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.treshold.day.high;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 280,
+        "wires": [
+            [
+                "3cec799f14774082"
+            ]
+        ]
+    },
+    {
+        "id": "9c4fbc04ef97a6d5",
+        "type": "ui_text",
+        "z": "42082fe4634df1d7",
+        "group": "c7c2efce3305425a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Seuil Jour bas",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1120,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e248cc6ad8ff184f",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getSBJ",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.treshold.day.low;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 340,
+        "wires": [
+            [
+                "9c4fbc04ef97a6d5"
+            ]
+        ]
+    },
+    {
+        "id": "c807e69ca1a8a663",
+        "type": "ui_text",
+        "z": "42082fe4634df1d7",
+        "group": "c7c2efce3305425a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Seuil Nuit Haut",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1120,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "9c5db9628cbac9cb",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getSHN",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.treshold.night.high;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 160,
+        "wires": [
+            [
+                "c807e69ca1a8a663"
+            ]
+        ]
+    },
+    {
+        "id": "ef8391c104f7ec54",
+        "type": "ui_text",
+        "z": "42082fe4634df1d7",
+        "group": "c7c2efce3305425a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Seuil Nuit bas",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1120,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "6f44afabb12e7536",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getSBN",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.treshold.night.low;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 440,
+        "wires": [
+            [
+                "ef8391c104f7ec54"
+            ]
+        ]
+    },
+    {
+        "id": "bdd59052e7c4e0d7",
+        "type": "ui_chart",
+        "z": "42082fe4634df1d7",
+        "name": "",
+        "group": "8507ffdf5f6bfed2",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "label": "Lum",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1130,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "988dba038e3eedbe",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getTemperature",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.value;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 660,
+        "wires": [
+            [
+                "bdd59052e7c4e0d7"
+            ]
+        ]
+    },
+    {
+        "id": "0edf4af7d036b518",
+        "type": "ui_text",
+        "z": "42082fe4634df1d7",
+        "group": "3cc98e587334626c",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Seuil Jour",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1140,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "b70b81198e2d4b7e",
+        "type": "function",
+        "z": "42082fe4634df1d7",
+        "name": "getSBN",
+        "func": "msg.topic = \"temperature\";\n\nmsg.payload = msg.payload.treshold.day.high;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 700,
+        "wires": [
+            [
+                "0edf4af7d036b518"
+            ]
+        ]
+    }
+]

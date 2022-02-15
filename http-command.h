@@ -2,7 +2,8 @@
 #define HTTP_CLIENT__H
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ESP32Ping.h>
+#include <ESP32Ping.h> //use of the ping api to test if the remote device is reachable 
+#include <ArduinoJson.h> // Using the JSON Api 
 /*
  *
  *
@@ -190,6 +191,116 @@ server->on("/temperature", HTTP_GET , [](AsyncWebServerRequest *request){
         request->send(200, "text/html", String(curMes.tem_value));
       });
 
+/* Response for the /set 
+ * The /set allow to change the value of the parameters in the esp32 to change the value of the parameters in the esp32  
+ */
+server->on("/set", HTTP_GET , [](AsyncWebServerRequest *request){
+   String input_value  = "" ;    
+      if(request->hasParam("sbn")){
+         input_value = request->getParam("sbn")->value();
+         SBN = input_value.toFloat();  
+      }
+   if(request->hasParam("sbj")){
+         input_value = request->getParam("sbj")->value();
+         SBJ = input_value.toFloat();  
+      }
+   if(request->hasParam("shj")){
+         input_value = request->getParam("shj")->value();
+         SHJ = input_value.toFloat();  
+      }
+
+   if(request->hasParam("shn")){
+         input_value = request->getParam("shn")->value();
+         SHN = input_value.toFloat();  
+      }
+
+   if(request->hasParam("sjn")){
+         input_value = request->getParam("shj")->value();
+         SJN = input_value.toFloat();  
+      }
+   if(request->hasParam("sp")){
+         input_value = request->getParam("sp")->value();
+         DELAY = input_value.toInt();  
+      }
+
+
+      }); 
+/* Response for the /value 
+ * The /value allow request for value of esp32 configuration.
+ * It return a json object containing the differents values
+ */
+server->on("/value", HTTP_GET , [](AsyncWebServerRequest *request){
+  StaticJsonDocument<2400> returnValue; 
+
+   if(request->hasParam("temperature")){
+     returnValue["temperature"] = String(curMes.tem_value);
+   }
+   
+   if(request->hasParam("light")){
+     returnValue["light"] = String(curMes.photo_value);
+
+   }
+   if(request->hasParam("cooler")){
+     returnValue["cooler"] = String(curMes.clim_);
+
+   }
+   if(request->hasParam("heater")){
+     returnValue["heater"] = String(curMes.heat_);
+
+   }
+   if(request->hasParam("ip")){
+     returnValue["ip"] = curMes.report_ip;
+
+   }
+   if(request->hasParam("port")){
+     returnValue["port"] = String(curMes.report_port);
+
+   }
+   if(request->hasParam("sp")){
+     returnValue["sp"] = String(curMes.report_delay);
+
+   }
+   if(request->hasParam("ligh_treshold")){
+     returnValue["light_treshold"] = String(curMes.photo_tresh);
+
+   }
+   if(request->hasParam("sbn")){
+     returnValue["sbn"] = String(curMes.tem_tresh_low_night);
+
+   }
+   if(request->hasParam("shn")){
+     returnValue["shn"] = String(curMes.tem_tresh_high_night);
+
+   }
+   if(request->hasParam("sbj")){
+     returnValue["sbj"] = String(curMes.tem_tresh_low_day);
+
+   }
+   if(request->hasParam("shj")){
+     returnValue["shj"] = String(curMes.tem_tresh_high_day);
+
+   }
+   if(request->hasParam("uptime")){
+     returnValue["uptime"] = "hello";
+
+   }
+   if(request->hasParam("ssid")){
+     returnValue["ssid"] = String(curMes.ssid);
+
+   }
+   if(request->hasParam("mac")){
+     returnValue["mac"] = String(curMes.mac);
+
+   }
+   if(request->hasParam("ip_esp")){
+     returnValue["ip_esp"] = String(curMes.ip);
+   }
+  
+   char buffer [1024];
+   serializeJson(returnValue, buffer);
+   request->send(200, "appliclation/json", buffer);
+      });
+
 
 // Comand to pass in manual mode and set the new configuration 
 server->on("/command", HTTP_GET , [](AsyncWebServerRequest *request){
@@ -215,7 +326,10 @@ server->on("/command", HTTP_GET , [](AsyncWebServerRequest *request){
 
 
       });
-    
+/**
+ * This acessor is for the periodic report. When the congiguration is send on /target, the 
+ * configuration is set and the host is tested. If the client respond, the periodic report is on 
+ */
 server->on("/target", HTTP_POST , [](AsyncWebServerRequest *request){
     String ip =""; 
     int port =0 ;
@@ -238,7 +352,8 @@ server->on("/target", HTTP_POST , [](AsyncWebServerRequest *request){
         request->send(200, "text/html", "The host is on , New configuration saved<br><a href=\"/\">Return to Home Page</a>");
           curMes.report_ip = request->getParam("ip",true)->value();
           curMes.report_port = request->getParam("port",true)->value().toInt();
-          curMes.report_delay = request->getParam("sp",true)->value().toInt();
+          //curMes.report_delay = request->getParam("sp",true)->value().toInt();
+          DELAY=curMes.report_delay = request->getParam("sp",true)->value().toInt();
           curMes.report_on=true;
          char port_buff[16]; 
             itoa(port, port_buff, 10);
@@ -246,12 +361,14 @@ server->on("/target", HTTP_POST , [](AsyncWebServerRequest *request){
          strcat(curMes.report_server,buff);
          strcat(curMes.report_server,":");
          strcat(curMes.report_server,port_buff);
+         strcat(curMes.report_server,"/result");
          Serial.println(curMes.report_server);
 
    }
         else{
           request->send(200, "text/html", "The host is offline  <br><a href=\"/\">Return to Home Page</a>");
-          curMes.report_on=true;
+          curMes.report_delay=0;
+          curMes.report_on=false;
         }
 });
 
